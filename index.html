@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B3C49">
+  <title>AccessBridge AI – Smart Multilingual Assistive Communication Platform</title>
+  <meta name="description" content="Speak, listen, picture cards, emergency help and simple language tools in Tamil and English for people with speech, hearing or reading difficulties.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-contrast="off" data-easy="off">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="#communicate" aria-label="AccessBridge AI home">
+        <svg class="logo" viewBox="0 0 64 40" width="52" height="32" aria-hidden="true" focusable="false">
+          <path d="M2 34 Q32 -6 62 34" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+          <path d="M2 34 H62" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+          <path d="M17 34 V19 M32 34 V12 M47 34 V19" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name">AccessBridge AI</span>
+          <span class="brand-tag">Smart Multilingual Assistive Communication Platform</span>
+        </span>
+      </a>
+      <div class="top-actions" role="group" aria-label="Quick display settings">
+        <button type="button" class="btn ghost" id="btnSmaller" aria-label="Make text smaller">A−</button>
+        <button type="button" class="btn ghost" id="btnLarger" aria-label="Make text larger">A+</button>
+        <button type="button" class="btn ghost" id="btnContrast" aria-pressed="false">High contrast</button>
+        <span class="badge" id="netBadge" data-state="on">Online</span>
+      </div>
+    </div>
+
+    <nav class="tabs" role="tablist" aria-label="Main sections">
+      <button type="button" role="tab" class="tab" id="tab-communicate" data-view="communicate" aria-controls="view-communicate" aria-selected="true">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span>Communicate</span>
+      </button>
+      <button type="button" role="tab" class="tab" id="tab-cards" data-view="cards" aria-controls="view-cards" aria-selected="false" tabindex="-1">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>Picture cards</span>
+      </button>
+      <button type="button" role="tab" class="tab" id="tab-listen" data-view="listen" aria-controls="view-listen" aria-selected="false" tabindex="-1">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg><span>Listen</span>
+      </button>
+      <button type="button" role="tab" class="tab" id="tab-history" data-view="history" aria-controls="view-history" aria-selected="false" tabindex="-1">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg><span>History</span>
+      </button>
+      <button type="button" role="tab" class="tab tab-sos" id="tab-emergency" data-view="emergency" aria-controls="view-emergency" aria-selected="false" tabindex="-1">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></svg><span>Emergency</span>
+      </button>
+      <button type="button" role="tab" class="tab" id="tab-settings" data-view="settings" aria-controls="view-settings" aria-selected="false" tabindex="-1">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg><span>Settings &amp; About</span>
+      </button>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ COMMUNICATE ============ -->
+    <section id="view-communicate" class="view" role="tabpanel" aria-labelledby="tab-communicate">
+      <div class="composer">
+        <h2>Your message</h2>
+        <label for="message" class="sr-only">Type your message</label>
+        <textarea id="message" rows="4" placeholder="Type here, then press Speak. Shortcut: Ctrl + Enter"></textarea>
+
+        <div id="suggestions" class="chips suggestions" role="group" aria-label="Phrase suggestions"></div>
+
+        <div class="row">
+          <button type="button" class="btn primary" id="btnSpeak">Speak</button>
+          <button type="button" class="btn" id="btnStop">Stop</button>
+          <button type="button" class="btn" id="btnShow">Show big</button>
+          <button type="button" class="btn" id="btnSimplify">Simplify</button>
+          <button type="button" class="btn" id="btnTranslate">Translate</button>
+          <button type="button" class="btn ai" id="btnAI" hidden>AI improve</button>
+          <button type="button" class="btn" id="btnCopy">Copy</button>
+          <button type="button" class="btn" id="btnClear">Clear</button>
+        </div>
+
+        <div class="field lang-field">
+          <label for="lang">Speaking language</label>
+          <select id="lang">
+            <option value="en-IN">English (India)</option>
+            <option value="ta-IN">தமிழ் (Tamil)</option>
+            <option value="hi-IN">हिन्दी (Hindi)</option>
+            <option value="te-IN">తెలుగు (Telugu)</option>
+            <option value="ml-IN">മലയാളം (Malayalam)</option>
+            <option value="kn-IN">ಕನ್ನಡ (Kannada)</option>
+            <option value="en-US">English (US)</option>
+            <option value="en-GB">English (UK)</option>
+          </select>
+        </div>
+
+        <details class="more">
+          <summary>Voice settings</summary>
+          <div class="settings-grid">
+            <div class="field">
+              <label for="voice">Voice</label>
+              <select id="voice"><option value="">Automatic</option></select>
+            </div>
+            <div class="field">
+              <label for="rate">Speed</label>
+              <input type="range" id="rate" min="0.5" max="1.5" step="0.1" value="1">
+            </div>
+            <div class="field">
+              <label for="pitch">Pitch</label>
+              <input type="range" id="pitch" min="0.5" max="1.5" step="0.1" value="1">
+            </div>
+          </div>
+        </details>
+        <p class="note" id="voiceNote" hidden></p>
+
+        <div class="result-box" id="resultBox" hidden>
+          <h3 id="resultTitle">Result</h3>
+          <div id="resultOut" class="result-out" tabindex="0"></div>
+          <div class="row">
+            <button type="button" class="btn primary" id="btnResSpeak">Speak this</button>
+            <button type="button" class="btn" id="btnResUse">Replace my message</button>
+            <button type="button" class="btn" id="btnResClose">Close</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PICTURE CARDS ============ -->
+    <section id="view-cards" class="view" role="tabpanel" aria-labelledby="tab-cards" hidden>
+      <div class="panel">
+        <h2>Picture cards</h2>
+        <p class="hint">Tap a card to speak it and add it to your message. Cards follow the speaking language (Tamil or English).</p>
+
+        <div class="card-tools">
+          <div class="chips" id="catChips" role="group" aria-label="Card categories"></div>
+          <div class="field search-field">
+            <label for="cardSearch" class="sr-only">Search cards</label>
+            <input id="cardSearch" type="search" placeholder="Search cards">
+          </div>
+        </div>
+
+        <div class="card-grid" id="cardGrid"></div>
+        <p class="note" id="cardEmpty" hidden>No cards match. Try another word or category.</p>
+
+        <details class="more add-card">
+          <summary>Add your own card</summary>
+          <form id="cardForm" autocomplete="off">
+            <div class="settings-grid">
+              <div class="field">
+                <label for="cardIcon">Picture (emoji)</label>
+                <input id="cardIcon" type="text" maxlength="4" placeholder="🍎">
+              </div>
+              <div class="field">
+                <label for="cardCat">Category</label>
+                <select id="cardCat">
+                  <option>Daily</option><option>Health</option><option>Emergency</option><option>Travel</option><option>Social</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="cardEn">English text</label>
+                <input id="cardEn" type="text" maxlength="80" placeholder="I want an apple">
+              </div>
+              <div class="field">
+                <label for="cardTa">Tamil text (optional)</label>
+                <input id="cardTa" type="text" maxlength="80" placeholder="எனக்கு ஆப்பிள் வேண்டும்">
+              </div>
+            </div>
+            <div class="row">
+              <button type="submit" class="btn primary">Add card</button>
+              <button type="button" class="btn" id="btnResetCards">Restore default cards</button>
+            </div>
+          </form>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ LISTEN ============ -->
+    <section id="view-listen" class="view" role="tabpanel" aria-labelledby="tab-listen" hidden>
+      <div class="panel">
+        <h2>Listen and read</h2>
+        <p class="hint">Turns what someone says into large text. Allow the microphone when the browser asks.</p>
+
+        <div class="field lang-field">
+          <label for="listenLang">Language being spoken</label>
+          <select id="listenLang">
+            <option value="en-IN">English (India)</option>
+            <option value="ta-IN">தமிழ் (Tamil)</option>
+            <option value="hi-IN">हिन्दी (Hindi)</option>
+            <option value="te-IN">తెలుగు (Telugu)</option>
+            <option value="ml-IN">മലയാളം (Malayalam)</option>
+            <option value="kn-IN">ಕನ್ನಡ (Kannada)</option>
+            <option value="en-US">English (US)</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <button type="button" class="btn primary" id="btnListen" aria-pressed="false">Start listening</button>
+          <button type="button" class="btn" id="btnTClear">Clear</button>
+        </div>
+        <p class="note" id="listenNote" hidden></p>
+
+        <div id="transcript" class="transcript" tabindex="0" role="log" aria-label="Speech transcript" data-placeholder="Spoken words will appear here."></div>
+
+        <div class="row">
+          <button type="button" class="btn" id="btnTSend">Use as my message</button>
+          <button type="button" class="btn" id="btnTSpeak">Read aloud</button>
+          <button type="button" class="btn" id="btnTSave">Save to history</button>
+          <button type="button" class="btn" id="btnTCopy">Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HISTORY ============ -->
+    <section id="view-history" class="view" role="tabpanel" aria-labelledby="tab-history" hidden>
+      <div class="panel">
+        <h2>Conversation history</h2>
+        <p class="hint" id="histStats">No messages yet.</p>
+        <div class="row no-print">
+          <button type="button" class="btn" id="btnHistExport">Download as text</button>
+          <button type="button" class="btn" id="btnHistPrint">Print</button>
+          <button type="button" class="btn" id="btnHistClear">Clear history</button>
+        </div>
+        <ul class="hist-list" id="histList"></ul>
+      </div>
+    </section>
+
+    <!-- ============ EMERGENCY ============ -->
+    <section id="view-emergency" class="view" role="tabpanel" aria-labelledby="tab-emergency" hidden>
+      <div class="panel sos-panel">
+        <h2>Need help now?</h2>
+        <p class="hint">Speaks a help message aloud and shows it in very large text on the screen so people nearby can read it.</p>
+        <div class="row">
+          <button type="button" class="btn sos" id="btnSOS">I need help</button>
+          <button type="button" class="btn" id="btnSosShow">Show help message only</button>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <div class="panel">
+          <h3>Emergency numbers (India)</h3>
+          <div class="num-grid">
+            <a class="num" href="tel:112"><strong>112</strong><span>All emergencies</span></a>
+            <a class="num" href="tel:108"><strong>108</strong><span>Ambulance</span></a>
+            <a class="num" href="tel:100"><strong>100</strong><span>Police</span></a>
+            <a class="num" href="tel:101"><strong>101</strong><span>Fire</span></a>
+          </div>
+          <p class="note">Tapping a number opens your phone dialer. Please confirm the numbers for your region.</p>
+        </div>
+
+        <div class="panel">
+          <h3>My emergency contact</h3>
+          <div class="field">
+            <label for="ecName">Name</label>
+            <input id="ecName" type="text" maxlength="60" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="ecPhone">Mobile number</label>
+            <input id="ecPhone" type="tel" maxlength="20" inputmode="tel" autocomplete="off" placeholder="98765 43210  or  +91 98765 43210">
+          </div>
+          <p class="hint small">A 10-digit number automatically gets +91 (India).</p>
+          <div class="row">
+            <button type="button" class="btn primary" id="btnEcSave">Save contact</button>
+            <a class="btn" id="ecCall" href="#emergency" aria-disabled="true">Call</a>
+          </div>
+
+          <h3 class="gap">Send an alert</h3>
+          <div class="row first">
+            <button type="button" class="btn" id="btnGetLoc">Add my location</button>
+          </div>
+          <p class="hint small" id="locStatus" role="status">Location is optional. It needs your permission.</p>
+          <label for="alertText" class="lbl">Alert message (you can edit it)</label>
+          <textarea id="alertText" class="alert-text" rows="4"></textarea>
+          <div class="row">
+            <a class="btn primary" id="ecSms" href="#emergency" aria-disabled="true">SMS</a>
+            <a class="btn primary" id="ecWa" href="#emergency" aria-disabled="true" target="_blank" rel="noopener">WhatsApp</a>
+            <button type="button" class="btn" id="btnShare">Share</button>
+            <button type="button" class="btn" id="btnAlertCopy">Copy</button>
+          </div>
+          <p class="note">A web page cannot send an SMS by itself. These buttons open your SMS app or WhatsApp with the message ready, and you press Send. SMS works on phones; on a laptop use WhatsApp, Share or Copy. Your contact is stored only in this browser.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SETTINGS & ABOUT ============ -->
+    <section id="view-settings" class="view" role="tabpanel" aria-labelledby="tab-settings" hidden>
+      <div class="workspace">
+        <div class="panel">
+          <h2>Settings</h2>
+
+          <h3>Reading comfort</h3>
+          <div class="row">
+            <button type="button" class="btn" id="btnEasy" aria-pressed="false">Easy reading spacing</button>
+          </div>
+
+          <h3 class="gap">AI assist (optional)</h3>
+          <p class="hint">Adds smart rewriting and translation of any sentence. Without a key, the app still works fully offline using built-in rules and phrases.</p>
+          <div class="field">
+            <label for="aiKey">Anthropic API key</label>
+            <input id="aiKey" type="password" autocomplete="off" placeholder="sk-ant-…">
+          </div>
+          <div class="field">
+            <label for="aiModel">Model</label>
+            <input id="aiModel" type="text" autocomplete="off" value="claude-haiku-5-5">
+          </div>
+          <div class="row">
+            <button type="button" class="btn primary" id="btnAISave">Save AI settings</button>
+            <button type="button" class="btn" id="btnAIClear">Remove key</button>
+          </div>
+          <p class="note">For demos only. The key stays in this browser and your message text is sent to Anthropic when you use an AI button. A real deployment should call the AI from a secure server.</p>
+
+          <h3 class="gap">Your data</h3>
+          <div class="row">
+            <button type="button" class="btn" id="btnResetAll">Erase all saved data</button>
+          </div>
+        </div>
+
+        <div class="panel about">
+          <h2>About AccessBridge AI</h2>
+          <p><strong>Problem.</strong> People with speech, hearing or reading difficulties often cannot communicate quickly in everyday places such as hospitals, buses and shops, and most tools support English only.</p>
+          <p><strong>Solution.</strong> A free web app that speaks typed text, turns speech into large text, offers one-tap picture cards in Tamil and English, simplifies hard sentences and gives instant emergency help.</p>
+          <p><strong>Goal.</strong> UN Sustainable Development Goal 10: Reduced Inequalities.</p>
+          <h3>Keyboard shortcuts</h3>
+          <ul class="plain">
+            <li>Ctrl + Enter: speak the message</li>
+            <li>Esc: stop speaking or close the big screen</li>
+            <li>Alt + 1 to 6: switch sections</li>
+          </ul>
+          <h3>Built with</h3>
+          <p>HTML5, CSS3, JavaScript, Web Speech API, localStorage, Service Worker (offline), ARIA accessibility, optional Claude API.</p>
+          <p class="credit">Developed by M. Subasri, MCA, Rathinam Technical Campus. MCA Hackathon, domain: Accessibility and Inclusion.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="no-print">
+    <p>AccessBridge AI · Accessibility and Inclusion · Works offline after the first visit</p>
+  </footer>
+
+  <!-- Big-screen overlay (show message to another person) -->
+  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-label="Message in large text" hidden>
+    <p id="overlayText" class="overlay-text"></p>
+    <div class="row">
+      <button type="button" class="btn primary" id="btnOverlaySpeak">Speak</button>
+      <button type="button" class="btn" id="btnOverlayClose">Close (Esc)</button>
+    </div>
+  </div>
+
+  <div id="status" class="status no-print" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

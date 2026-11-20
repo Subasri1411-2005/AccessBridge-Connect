@@ -1,0 +1,13 @@
+{
+  "name": "AccessBridge AI",
+  "short_name": "AccessBridge",
+  "description": "Smart Multilingual Assistive Communication Platform",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0B3C49",
+  "theme_color": "#0B3C49",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
